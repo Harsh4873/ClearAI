@@ -1,0 +1,151 @@
+.app-layout {
+  display: flex;
+  height: 100vh;
+  width: 100%;
+  overflow: hidden;
+}
+
+.main-content {
+  flex: 1;
+  overflow-y: auto;
+  transition: margin 0.3s ease;
+}
+
+.sidebar {
+  width: 280px;
+  height: 100vh;
+  background-color: var(--background);
+  border-right: 1px solid rgba(128, 128, 128, 0.2);
+  transition: width 0.3s ease;
+  position: relative;
+}
+
+.right-sidebar {
+  border-right: none;
+  border-left: 1px solid rgba(128, 128, 128, 0.2);
+}
+
+.sidebar.collapsed {
+  width: 50px;
+  overflow: hidden;
+}
+
+.collapse-button {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 10;
+  background: none;
+  border: 1px solid rgba(128, 128, 128, 0.3);
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.right-sidebar .collapse-button {
+  right: auto;
+  left: 10px;
+}
+
+.sidebar-content {
+  padding: 20px;
+  margin-top: 40px;
+}
+
+.sidebar h2 {
+  font-size: 1.5rem;
+  margin-bottom: 20px;
+  font-weight: 600;
+}
+
+.sidebar-section {
+  margin-bottom: 25px;
+}
+
+.sidebar-section h3 {
+  font-size: 1.1rem;
+  margin-bottom: 12px;
+  font-weight: 500;
+}
+
+.sidebar label {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  margin-bottom: 10px;
+  cursor: pointer;
+}
+
+.sidebar input[type="checkbox"],
+.sidebar input[type="radio"] {
+  margin-top: 3px;
+}
+
+.radio-group {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.sidebar-button {
+  background-color: #4a90e2;
+  color: white;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.sidebar-button:hover {
+  background-color: #3a80d2;
+}
+
+.option-description {
+  font-size: 0.85rem;
+  color: #666;
+  margin-top: 5px;
+}
+
+.sidebar-select {
+  width: 100%;
+  padding: 8px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  margin-top: 5px;
+}
+
+@media (prefers-color-scheme: dark) {
+  .sidebar {
+    border-color: rgba(255, 255, 255, 0.1);
+  }
+  
+  .collapse-button {
+    border-color: rgba(255, 255, 255, 0.2);
+  }
+  
+  .option-description {
+    color: #aaa;
+  }
+  
+  .sidebar-select {
+    background-color: #1a1a1a;
+    color: #fff;
+    border-color: #444;
+  }
+}
+
+@media (max-width: 768px) {
+  .app-layout {
+    flex-direction: column;
+  }
+  
+  .sidebar {
+    width: 100%;
+    max-height: 50vh;
+  }
+}

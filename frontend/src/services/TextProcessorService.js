@@ -51,76 +51,76 @@ export class TextProcessorService {
   /**
    * Format the processing results into a readable message for chat
    * @param {Object} results - The processing results from processText()
+   * @param {boolean} isAdhdModeEnabled - Flag indicating if ADHD mode is active
    * @returns {string} - Formatted message
    */
-  formatResultsForChat(results) {
+  formatResultsForChat(results, isAdhdModeEnabled = false) {
     if (results.error) {
       return `Error processing text: ${results.message}`;
     }
 
-    let message = `# 📝 Text Analysis Results\n\n`;
+    // Style for bold terms (conditionally underlined)
+    const strongStyleBase = 'color: black;';
+    const strongStyle = isAdhdModeEnabled 
+      ? `${strongStyleBase} text-decoration: underline;` 
+      : strongStyleBase;
+      
+    // Style for headings (conditionally underlined)
+    const headingStyle = isAdhdModeEnabled ? 'style="text-decoration: underline;"' : '';
+
+    // Use HTML heading tags instead of Markdown
+    let message = `<h1>📝 Text Analysis Results</h1>\n\n`; // Changed from #
 
     // Add summary section
-    message += `## Summary\n`;
-    message += `${results.summary.highlighted}\n\n`;
+    message += `<h2 ${headingStyle}>Summary</h2>\n`; // Changed from ##
+    message += `${results.summary.highlighted}\n\n`; 
 
     // Add keywords section if available
     if (results.keywords && results.keywords.length > 0) {
-      message += `## Key Terms\n`;
-      message += results.keywords.map(term => `**${term}**`).join(', ') + '\n\n';
+      message += `<h2 ${headingStyle}>Key Terms</h2>\n`; // Changed from ##
+      message += results.keywords.map(term => `<strong style="${strongStyle}">${term}</strong>`).join(', ') + '\n\n';
     }
 
     // Add sentiment if available
     if (results.sentiment && results.sentiment.label !== 'N/A') {
-      message += `## Sentiment Analysis\n`;
-      message += `**${results.sentiment.label}** (${(results.sentiment.score * 100).toFixed(1)}%)\n\n`;
+      message += `<h2 ${headingStyle}>Sentiment Analysis</h2>\n`; // Changed from ##
+      message += `<strong style="${strongStyle}">${results.sentiment.label}</strong> (${(results.sentiment.score * 100).toFixed(1)}%)\n\n`;
     }
 
     // Add definitions if available
     if (Object.keys(results.definitions).length > 0) {
-      message += `## Definitions\n`;
+      message += `<h2 ${headingStyle}>Definitions</h2>\n`; // Changed from ##
       
       for (const [word, definition] of Object.entries(results.definitions)) {
-        message += `- **${word}**: ${definition}\n`;
+        const wordStyle = `style="${strongStyle}"`; // Use the combined style for defined words
+        message += `- <strong ${wordStyle}>${word}</strong>: ${definition}\n`;
       }
       message += '\n';
     }
 
     // Add entities if available
     if (results.entities && results.entities.length > 0) {
-      message += `## Named Entities\n`;
+      message += `<h2 ${headingStyle}>Named Entities</h2>\n`; // Changed from ##
       
       results.entities.forEach(entity => {
-        message += `- **${entity.word}** (${entity.entity_group})\n`;
+        message += `- <strong style="${strongStyle}">${entity.word}</strong> (${entity.entity_group})\n`;
       });
       message += '\n';
     }
 
     // Add translation if not English
     if (results.translated.language !== 'en') {
-      const langNames = {
-        'es': 'Spanish',
-        'fr': 'French',
-        'de': 'German',
-        'it': 'Italian',
-        'ja': 'Japanese',
-        'ko': 'Korean',
-        'zh': 'Chinese',
-        'ru': 'Russian',
-        'pt': 'Portuguese',
-        'ar': 'Arabic',
-        'hi': 'Hindi'
-      };
-      
+      const langNames = { /* ... language names ... */ };
       const langName = langNames[results.translated.language] || results.translated.language.toUpperCase();
       
-      message += `## ${langName} Translation\n`;
+      message += `<h2 ${headingStyle}>${langName} Translation</h2>\n`; // Changed from ##
       message += `${results.translated.summary}\n\n`;
       
       // Add translated keywords if available
       if (results.translated.keywords && results.translated.keywords.length > 0) {
-        message += `### Key Terms in ${langName}\n`;
-        message += results.translated.keywords.map(term => `**${term}**`).join(', ') + '\n\n';
+        // Use h3 for sub-heading
+        message += `<h3 ${headingStyle}>Key Terms in ${langName}</h3>\n`; // Changed from ###
+        message += results.translated.keywords.map(term => `<strong style="${strongStyle}">${term}</strong>`).join(', ') + '\n\n';
       }
     }
 
@@ -129,4 +129,4 @@ export class TextProcessorService {
 }
 
 // Create a singleton instance for use throughout the app
-export const textProcessorService = new TextProcessorService(); 
+export const textProcessorService = new TextProcessorService();

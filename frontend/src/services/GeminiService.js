@@ -250,11 +250,11 @@ export class GeminiService {
       this.history = [
         {
           role: "user",
-          parts: [{ text: "Hello, please introduce yourself as Alpha Assistant. You have special text processing capabilities. Users can analyze text by typing /analyze followed by the text. They can also specify a target language with --lang [code], e.g., /analyze --lang es [text] to translate the analysis results to Spanish." }],
+          parts: [{ text: "Hello, please introduce yourself as ClearAI Assistant. You have special text processing capabilities." }],
         },
         {
           role: "model",
-          parts: [{ text: "Hello! I'm Alpha Assistant, a helpful AI assistant designed to provide information, answer questions, and assist you with various tasks. I also have special text processing capabilities. You can analyze any text by typing /analyze followed by your text. If you want the analysis in a different language, use /analyze --lang [language_code] [your text]. For example, '/analyze --lang es ...' would provide results in Spanish. How can I help you today?" }],
+          parts: [{ text: "Hello! I'm ClearAI Assistant, a helpful AI assistant designed to provide information, answer questions, and assist you with various tasks. I also have special text processing capabilities. How can I help you today?" }],
         },
       ];
       
